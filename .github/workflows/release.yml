@@ -1,0 +1,39 @@
+name: release
+
+# Fires on a version tag, never on a plain push. Cutting a release is a decision,
+# and tagging is how that decision gets expressed.
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The packager derives the version from the tag, so it needs the tags.
+          fetch-depth: 0
+
+      # Same gate as every push. A release that does not lint is not a release.
+      - name: Install luacheck
+        run: sudo apt-get update && sudo apt-get install -y lua-check
+
+      - name: Lint
+        run: luacheck addon/MogWhere
+
+      # Reads .pkgmeta: moves addon/MogWhere to the package root, drops scripts,
+      # media and .github, and substitutes @project-version@ in the toc.
+      #
+      # CF_API_KEY is optional. Without it the job still builds the zip and
+      # attaches it to the GitHub release, so tagging is useful from day one and
+      # CurseForge can be wired up later without touching this file.
+      - name: Package and publish
+        uses: BigWigsMods/packager@master
+        env:
+          GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+          CF_API_KEY: ${{ secrets.CF_API_KEY }}

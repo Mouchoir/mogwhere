@@ -1,0 +1,21 @@
+name: luacheck
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install luacheck
+        run: sudo apt-get update && sudo apt-get install -y lua-check
+
+      # Zero warnings is the standard for this project, not zero errors. Several
+      # real bugs in this addon were first reported by luacheck as an unused
+      # local or a shadowed variable.
+      - name: Lint
+        run: luacheck addon/MogWhere

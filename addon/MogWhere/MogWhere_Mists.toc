@@ -1,0 +1,27 @@
+## Interface: 50504
+## Title: MogWhere
+## Notes: Tells you where an appearance actually comes from: vendor, cost, reputation and a waypoint.
+## Notes-frFR: Indique d'où vient réellement une apparence : marchand, coût, réputation et point de route.
+## Author: Mouchoir
+## Version: @project-version@
+## X-License: GPL-3.0-or-later
+## SavedVariables: MogWhereDB
+## X-Category: Collections
+## OptionalDeps: AllTheThings, TomTom
+## IconTexture: Interface\Icons\INV_Misc_Desecrated_ClothShoulder
+
+Locale.lua
+Compat.lua
+Sources.lua
+Names.lua
+Providers.lua
+Harvest.lua
+Wowhead.lua
+Census.lua
+Panel.lua
+Nameplates.lua
+Wardrobe.lua
+Requirements.lua
+Options.lua
+Probe.lua
+Core.lua

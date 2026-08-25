@@ -1,0 +1,17 @@
+package-as: MogWhere
+
+enable-nolib-creation: no
+
+move-folders:
+    MogWhere/addon/MogWhere: MogWhere
+
+ignore:
+    - scripts
+    - media
+    - .luacheckrc
+    - .github
+    - CHANGELOG.md
+
+optional-dependencies:
+    - all-the-things
+    - tomtom

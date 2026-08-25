@@ -1,0 +1,5 @@
+# Lua and text normalise to LF in the repository, whatever the working copy uses.
+* text=auto eol=lf
+
+*.png binary
+*.ps1 text eol=crlf
