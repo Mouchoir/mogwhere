@@ -82,8 +82,19 @@ end
 -- rather than leaving a star that silently never appears.
 --------------------------------------------------------------------------------
 
+-- Every way an errand can genuinely end.
+--
+-- The first five are conversations. They cover a vendor and a quest giver, and
+-- they were the whole list, which quietly assumed every destination was somebody
+-- you talk to. A rare that drops the appearance is somebody you kill, and none of
+-- these ever fire for that, so its star would have hung around until the poll
+-- gave up fifteen minutes later.
+--
+-- The combat log closes that: UNIT_DIED carries the dead unit's GUID, and the
+-- creature id inside it is the same id the star was placed from.
 local INTERACTIONS = {
 	"MERCHANT_SHOW", "GOSSIP_SHOW", "QUEST_GREETING", "QUEST_DETAIL", "TRAINER_SHOW",
+	"COMBAT_LOG_EVENT_UNFILTERED",
 }
 
 -- Two lists on purpose, and mixing them would have been a bug of its own making.
@@ -434,6 +445,21 @@ frame:SetScript("OnEvent", function(_, event, unit)
 		Decorate(unit)
 	elseif event == "NAME_PLATE_UNIT_REMOVED" then
 		Undecorate(unit)
+	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
+		if not tracked or not tracked.npcID then return end
+
+		local info = Fn(CombatLogGetCurrentEventInfo)
+		if not info then return end
+
+		-- pcall directly rather than through ns.Try, which caps at six return
+		-- values. destGUID is the eighth, so Try would have handed back nil every
+		-- single time and the star would never have cleared on a kill. Nothing in
+		-- the linter can see an arity mismatch like that.
+		local ok, _, subevent, _, _, _, _, _, destGUID = pcall(info)
+		if not ok then return end
+		if subevent == "UNIT_DIED" and CreatureID(destGUID) == tracked.npcID then
+			ns.ClearTracked()
+		end
 	elseif tracked and Matches("npc") then
 		-- Spoken to. The marker has served its purpose and hanging around would
 		-- just be litter on the next pull.

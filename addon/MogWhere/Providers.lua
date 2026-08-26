@@ -330,6 +330,11 @@ function ns.ATTOffers(itemID, sourceID)
 					spellID = at.spellID,
 					recipeName = ns.RecipeName(at.spellID),
 					learnedAt = at.learnedAt,
+					-- Exposed on every offer, not just recipes. A rare that drops
+					-- the appearance itself is something the player has to find and
+					-- kill exactly like a recipe drop, and hiding the id behind a
+					-- recipe-shaped field meant the star could never mark it.
+					creatures = at.creatures,
 					recipeDroppedBy = at.creatures,
 					achievementID = at.achievementID,
 					instanceName = ns.InstanceName(at.instanceID, at.instanceMapID),

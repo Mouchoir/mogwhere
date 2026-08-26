@@ -307,6 +307,18 @@ rearmer:SetScript("OnEvent", function()
 	end
 end)
 
+-- What the star should sit on for this offer.
+--
+-- A vendor or a quest giver is somebody to walk up to. A drop is something to
+-- kill, and until now only recipe drops carried a creature id, so a rare holding
+-- the appearance itself was never marked at all.
+local function TargetOf(offer)
+	if offer.npcID then return offer.npcID end
+	local kills = offer.creatures
+	if type(kills) == "table" and kills[1] then return kills[1] end
+	return nil
+end
+
 function ns.DropWaypoint()
 	-- The player has one faction, and a waypoint to the other side's vendor is
 	-- something they can never walk to. So there is no side to choose: take our
@@ -358,7 +370,7 @@ function ns.DropWaypoint()
 
 	-- Only now, because the star is meant to appear while you are travelling to a
 	-- destination you asked for, not on every hover.
-	ns.TrackNPC(offer.npcName, offer.npcID)
+	ns.TrackNPC(offer.npcName, TargetOf(offer))
 
 	ns.Print(format(L.WAYPOINT_READY, title))
 end
@@ -539,7 +551,6 @@ local function AddCraft(offer, suffix)
 		else
 			Add(L.RECIPE_FROM_KILL, 0.9, 0.7, 0.7)
 		end
-		offer.npcID = offer.npcID or kills[1]
 	end
 end
 

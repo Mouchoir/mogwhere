@@ -41,7 +41,7 @@ read_globals = {
 	"GetAchievementInfo", "GetAchievementNumCriteria", "GetAchievementCriteriaInfo",
 
 	-- Nameplates
-	"C_NamePlate", "UnitIsUnit", "C_CVar", "GetCVar", "GetBindingKey",
+	"C_NamePlate", "UnitIsUnit", "CombatLogGetCurrentEventInfo", "C_CVar", "GetCVar", "GetBindingKey",
 
 	-- Merchant harvesting
 	"GetMerchantNumItems", "GetMerchantItemInfo", "GetMerchantItemLink",
