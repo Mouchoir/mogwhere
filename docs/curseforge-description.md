@@ -1,16 +1,19 @@
 # CurseForge project description
 
-Paste the block below into the CurseForge description editor, in Markdown mode.
+Paste everything below the rule into the CurseForge description editor, in
+Markdown mode.
+
+Only two images are inline: the banner and the overview. CurseForge does not
+thumbnail images in a description, so a capture per feature would take the whole
+page. The other six belong in the project's Media tab, where the gallery does the
+resizing.
 
 Images are hotlinked from this repository's `main` branch, so replacing a capture
-here updates the project page with no further action. Two consequences worth
-knowing: renaming a file breaks the page, and if CurseForge ever strips external
-images the fallback is their own Images tab.
-
-Kept as a file rather than pasted once and forgotten, so the description has a
-history like everything else.
+here updates the project page with no further action. Renaming one breaks it.
 
 ---
+
+![MogWhere](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/banner.png)
 
 **The Appearances tab gives you one word. "Vendor". "Quest". "Boss Drop".
 "Achievement". Then nothing.**
@@ -27,38 +30,26 @@ appears next to it.
 
 ## What you get
 
-**Boss drops** — the instance, the boss, and every difficulty it can drop on.
+**Boss drops** - the instance, the boss, and every difficulty it can drop on.
 
-![Boss drop](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/boss-drop.png)
-
-**Vendors** — the vendor's name, the zone, coordinates, and the price, whether
+**Vendors** - the vendor's name, the zone, coordinates, and the price, whether
 that is gold, a currency, or another item.
 
-![Vendor](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/vendor.png)
+**Quests** - the quest title and the name of whoever hands it out.
 
-**Reputation gates** — both halves of the answer. *"Needs Exalted with The
-Defilers, you are Neutral"*, turning green once you get there.
-
-![Reputation](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/reputation.png)
-
-**Achievements** — the name, the description, and your own live progress, listing
-the criteria you are **still missing** rather than the ones you already have.
-
-![Achievement](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/achievement.png)
-
-**Professions** — the recipe, the skill level it needs, and the creature that
+**Professions** - the recipe, the skill level it needs, and the creature that
 drops the recipe when it has to be looted rather than bought.
 
-![Profession](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/profession.png)
+**Achievements** - the name, the description, and your own live progress, listing
+the criteria you are **still missing** rather than the ones you already have.
 
-**Quests** — the quest title and the name of whoever hands it out.
+**Reputation gates** - both halves of the answer. *"Needs Exalted with The
+Defilers, you are Neutral"*, turning green once you get there.
 
 **Factions**, handled the way you actually think about them. An appearance sold by
 both a Horde and an Alliance quartermaster just shows yours. An appearance that
 exists as two separate faction quests shows the one you can do, and names the
 equivalent when you are looking at the other side's.
-
-![Quest and faction](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/quest-faction.png)
 
 ## What you can do
 
@@ -66,10 +57,8 @@ equivalent when you are looking at the other side's.
   what you are going for rather than the city you are already standing in.
 - **Middle click** gives you the Wowhead link for that exact item, on the right
   game version and in your own language.
-- **A star** appears over that vendor's nameplate when you arrive, and clears
-  itself once you talk to them.
-
-![The star on a vendor nameplate](https://raw.githubusercontent.com/Mouchoir/mogwhere/main/media/screenshots/waypoint-star.png)
+- **A star** appears over whoever you are heading to, vendor or rare, and clears
+  itself once you talk to them or kill them.
 
 When the destination is on another continent, MogWhere says so *before* you
 click. TomTom cannot give a bearing across an ocean, and an arrow that silently
@@ -92,10 +81,10 @@ reload**, instead of telling you to download something you already have.
 
 ## Commands
 
-- `/mw options` — the options panel
-- `/mw nameplate` — toggle the star on the target's nameplate
-- `/mw deps` — which optional addons you are missing, with links
-- `/mw reset` — clears harvested vendor data
+- `/mw options` - the options panel
+- `/mw nameplate` - toggle the star on the target's nameplate
+- `/mw deps` - which optional addons you are missing, with links
+- `/mw reset` - clears harvested vendor data
 
 ## Languages
 
@@ -117,14 +106,14 @@ social**.
 ## My other addons
 
 - **[Party Role Icons](https://www.curseforge.com/wow/addons/party-role-icons-display-group-roles)**
-  — tank, healer and damage icons on the player and party portraits, retail
+  - tank, healer and damage icons on the player and party portraits, retail
   style, including in groups you put together by hand.
 - **[Timeless Question Autocomplete](https://www.curseforge.com/wow/addons/timeless-question-autocomplete)**
-  — answers Senior Historian Evelyna's daily lore question for you, in any game
+  - answers Senior Historian Evelyna's daily lore question for you, in any game
   language.
 - **[Darkmoon Faire Buff](https://www.curseforge.com/wow/addons/darkmoon-faire-buff-dfb)**
-  — automates Sayge's Darkmoon Faire buff dialogue.
+  - automates Sayge's Darkmoon Faire buff dialogue.
 - **[Hardcore Congrats](https://www.curseforge.com/wow/addons/hardcore-congrats)**
-  — congratulates Hardcore players reaching level 60, automatically.
-- **[One Click Enchant](https://github.com/Mouchoir/OneClickEnchant)** — creates
+  - congratulates Hardcore players reaching level 60, automatically.
+- **[One Click Enchant](https://github.com/Mouchoir/OneClickEnchant)** - creates
   enchantment scrolls with a single click.
