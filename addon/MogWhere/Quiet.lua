@@ -80,8 +80,17 @@ local function Enter(s, db)
 	-- snapshot from last week.
 	Try(s.CopyProfile, s, PROFILE, previous)
 
-	if not Try(s.SetProfile, s, PROFILE) then return false end
+	Try(s.SetProfile, s, PROFILE)
 	Try(s.ApplyProfile, s)
+
+	-- Checked by reading the result back, not by trusting a return value.
+	--
+	-- SetProfile returns nothing at all, so the previous version treated "no
+	-- return" as failure and refused every single time while having in fact
+	-- already switched. Their getter answers "Default" for an unassigned profile,
+	-- never nil, which is why the comparison is against the name and not against
+	-- truthiness.
+	if Try(s.GetProfile, s) ~= PROFILE then return false end
 
 	-- Only now. Every one of these writes into the profile we just switched to.
 	for _, key in ipairs(MUTE) do
@@ -95,9 +104,14 @@ end
 local function Leave(s, db)
 	local previous = db.quiet and db.quiet.previous or nil
 
-	-- nil is Default, which is what ATT itself uses for the unnamed profile.
+	-- nil and "Default" are the same thing to them: SetProfile maps the name back
+	-- to nil, and GetProfile reports the name. So the expected outcome has to be
+	-- normalised before it can be compared.
 	Try(s.SetProfile, s, previous)
 	Try(s.ApplyProfile, s)
+
+	local expected = previous or "Default"
+	if Try(s.GetProfile, s) ~= expected then return false end
 
 	db.quiet = { active = false, previous = previous }
 	return true
