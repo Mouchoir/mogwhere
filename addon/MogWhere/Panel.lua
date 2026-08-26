@@ -438,6 +438,7 @@ end
 --------------------------------------------------------------------------------
 
 local SOURCE_DROP = 1
+local SOURCE_WORLD_DROP = 4
 local SOURCE_QUEST = 2
 local SOURCE_VENDOR = 3
 local SOURCE_ACHIEVEMENT = 5
@@ -599,6 +600,23 @@ local function Equivalent(source)
 	return nil
 end
 
+-- What has to die, when the client cannot say it.
+--
+-- A boss inside an instance is already named by the drop lines and by AddPlace.
+-- A rare standing in a field is in neither: the Encounter Journal has never heard
+-- of it, so the panel printed a set of coordinates without ever saying whose they
+-- were. Naming it also gives the nameplate star something to aim at, which is the
+-- same id either way.
+local function AddKill(offer, suffix)
+	-- Silent when the place already names an encounter, otherwise the same kill
+	-- would be announced twice in three lines.
+	if offer.instanceName then return end
+
+	local id = TargetOf(offer)
+	local name = id and ns.NPCName(id) or nil
+	if name then Add(format(L.DROPPED_BY, name) .. suffix, 1, 0.82, 0) end
+end
+
 local function AddOffer(source, offer)
 	-- The other side keeps its label, because that is the whole point of showing
 	-- it: the reader has to know why this one is not for them.
@@ -618,6 +636,8 @@ local function AddOffer(source, offer)
 		else
 			Add(L.SOURCE_VENDOR_UNKNOWN .. suffix, 1, 0.82, 0)
 		end
+	elseif kind == SOURCE_DROP or kind == SOURCE_WORLD_DROP then
+		AddKill(offer, suffix)
 	end
 
 	-- Where it lives, whatever the source type. This is generic on purpose: any

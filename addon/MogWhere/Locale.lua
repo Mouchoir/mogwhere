@@ -8,6 +8,7 @@ local L = {
 	SOURCE_UNKNOWN = "source unknown",
 	SOURCE_BOSS = "%s, %s",
 	SOURCE_BOSS_DIFF = "%s, %s (%s)",
+	DROPPED_BY = "dropped by %s",
 	SOURCE_VENDOR = "sold by %s",
 	SOURCE_VENDOR_UNKNOWN = "Vendor",
 	COST_GOLD = "costs %s",
@@ -132,6 +133,7 @@ ns.L = setmetatable(L, { __index = function(_, k) return k end })
 local translations = {
 	frFR = {
 		SOURCE_UNKNOWN = "source inconnue",
+		DROPPED_BY = "lâché par %s",
 		SOURCE_VENDOR = "vendu par %s",
 		SOURCE_VENDOR_UNKNOWN = "Marchand",
 		COST_GOLD = "coûte %s",
