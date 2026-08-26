@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.2.0
+
+### The star follows what you have to kill
+
+- Creature ids were only ever exposed on recipe offers, so a rare holding the
+  appearance itself was never marked. They are now on every offer, and the star
+  falls back to the first one when there is no vendor or quest giver to aim at.
+- Nothing cleared the star on a kill. The five interaction events are all
+  conversations, so the marker hung around until the poll gave up a quarter of an
+  hour later. `UNIT_DIED` from the combat log closes it, matched on the creature
+  id inside `destGUID`.
+
+### The panel names the kill
+
+- A boss inside an instance was named twice over, by the client drop lines and by
+  the place. A rare standing in a field was in neither, so the panel printed its
+  coordinates without ever saying whose they were. It now reads "dropped by Go
+  Kan", and stays quiet when an encounter is already named.
+
+### Packaging
+
+- The CurseForge project id is declared in the toc, so a tagged release publishes
+  there as well as on GitHub.
+
 ## 0.1.0
 
 First release. Mists of Pandaria Classic.
