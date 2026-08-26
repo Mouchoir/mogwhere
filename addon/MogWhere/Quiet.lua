@@ -130,3 +130,104 @@ function ns.ToggleQuiet()
 	if not ok then ns.Print(L.QUIET_FAILED) end
 	return ns.IsQuiet()
 end
+
+--------------------------------------------------------------------------------
+-- Asking once, the first time AllTheThings is seen
+--
+-- Neither answer is a sane default. Applying quiet mode unasked would be an addon
+-- reconfiguring another one behind the player's back, and doing nothing leaves
+-- somebody who installed this for a wardrobe panel wondering why their minimap
+-- grew a button.
+--
+-- So the question gets asked, once, and the answer is remembered. Not asked again
+-- on the next character, not asked again after a reload, and reversible from the
+-- options panel either way.
+--------------------------------------------------------------------------------
+
+local dialog
+
+local function Dialog()
+	if dialog then return dialog end
+
+	local frame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
+	frame:SetSize(560, 260)
+	frame:SetPoint("CENTER", 0, 100)
+	frame:SetFrameStrata("DIALOG")
+	frame:EnableMouse(true)
+	frame:SetMovable(true)
+	frame:RegisterForDrag("LeftButton")
+	frame:SetScript("OnDragStart", frame.StartMoving)
+	frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
+	frame:Hide()
+
+	if frame.SetBackdrop then
+		frame:SetBackdrop({
+			bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
+			edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border",
+			tile = true, tileSize = 16, edgeSize = 16,
+			insets = { left = 4, right = 4, top = 4, bottom = 4 },
+		})
+		frame:SetBackdropColor(0, 0, 0, 0.95)
+	end
+
+	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+	title:SetPoint("TOPLEFT", 18, -16)
+	title:SetText(L.QUIET_ASK_TITLE)
+
+	local body = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+	body:SetPoint("TOPLEFT", 18, -48)
+	body:SetWidth(524)
+	body:SetJustifyH("LEFT")
+	body:SetSpacing(3)
+	body:SetText(L.QUIET_ASK_BODY)
+
+	-- Answering is mandatory in the sense that closing without choosing would just
+	-- ask again next login, so there is no close button and no silent dismissal.
+	local keep = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+	keep:SetSize(230, 26)
+	keep:SetPoint("BOTTOMLEFT", 24, 62)
+	keep:SetText(L.QUIET_ASK_KEEP)
+
+	local apply = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+	apply:SetSize(230, 26)
+	apply:SetPoint("BOTTOMRIGHT", -24, 62)
+	apply:SetText(L.QUIET_ASK_APPLY)
+
+	local footer = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+	footer:SetPoint("BOTTOM", 0, 22)
+	footer:SetWidth(500)
+	footer:SetJustifyH("CENTER")
+	footer:SetText(L.QUIET_ASK_FOOTER)
+
+	local function answered()
+		local db = ns.db
+		if db then
+			db.quiet = db.quiet or {}
+			db.quiet.asked = true
+		end
+		frame:Hide()
+	end
+
+	keep:SetScript("OnClick", answered)
+	apply:SetScript("OnClick", function()
+		answered()
+		if not ns.IsQuiet() then ns.ToggleQuiet() end
+	end)
+
+	dialog = frame
+	return frame
+end
+
+function ns.AskQuiet()
+	local db = ns.db
+	if not db then return false end
+	if db.quiet and db.quiet.asked then return false end
+
+	-- Nothing to offer if it is not there, and the question would be nonsense.
+	-- The flag is deliberately NOT set here: install ATT next week and the
+	-- question is still worth asking then.
+	if not ns.HasATT() or not Settings() then return false end
+
+	Dialog():Show()
+	return true
+end

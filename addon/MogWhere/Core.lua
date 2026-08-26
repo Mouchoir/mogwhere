@@ -94,6 +94,12 @@ frame:SetScript("OnEvent", function(_, event, arg1)
 
 		if C_Timer and C_Timer.After then
 			C_Timer.After(8, function() ns.CheckDependencies() end)
+
+			-- Later than the dependency prompt, and mutually exclusive with it in
+			-- practice: that one only appears when AllTheThings is missing, this
+			-- one only when it is present. The gap is there so a player who is
+			-- missing TomTom does not get two dialogs stacked on each other.
+			C_Timer.After(13, function() ns.AskQuiet() end)
 		end
 		return
 	end
