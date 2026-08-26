@@ -16,6 +16,10 @@ in your language, following the client's own Tab selection.
 
 ## What it looks like
 
+The whole thing lives in the Appearances tab. Hover a tile, read the answer.
+
+![The Appearances tab with MogWhere](media/screenshots/overview.png)
+
 **A boss drop**, with the instance, the boss and every difficulty it can drop on,
 plus the Wowhead link that middle click just copied.
 
