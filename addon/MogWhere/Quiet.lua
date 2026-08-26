@@ -58,9 +58,21 @@ local function Settings()
 	return s
 end
 
+-- Asks AllTheThings, never our own bookkeeping.
+--
+-- The first version kept an "active" flag in our saved variables, and it drifted:
+-- the panel reported quiet mode while ATT's own profile page said Default and the
+-- tooltips were plainly back. Their profile assignment is per character and ours
+-- was per account, so logging onto a second character was enough to make the two
+-- disagree, and there are a dozen other ways to end up on another profile that we
+-- would never hear about.
+--
+-- So there is no flag. The question "are we quiet" has exactly one honest answer:
+-- is ATT on our profile right now.
 function ns.IsQuiet()
-	local db = ns.db
-	return db and db.quiet and db.quiet.active or false
+	local s = Settings()
+	if not s then return false end
+	return Try(s.GetProfile, s) == PROFILE
 end
 
 --------------------------------------------------------------------------------
@@ -97,7 +109,9 @@ local function Enter(s, db)
 		Try(s.SetTooltipSetting, s, key, false)
 	end
 
-	db.quiet = { active = true, previous = previous }
+	-- Only what cannot be read back from ATT: which profile to return to.
+	db.quiet = db.quiet or {}
+	db.quiet.previous = previous
 	return true
 end
 
@@ -113,7 +127,8 @@ local function Leave(s, db)
 	local expected = previous or "Default"
 	if Try(s.GetProfile, s) ~= expected then return false end
 
-	db.quiet = { active = false, previous = previous }
+	db.quiet = db.quiet or {}
+	db.quiet.previous = previous
 	return true
 end
 
