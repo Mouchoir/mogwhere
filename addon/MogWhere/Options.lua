@@ -146,8 +146,23 @@ local function Build()
 			db.config.harvest = value
 		end)
 
+	-- Declared before the Check call, because the setter closure refers to it and a
+	-- local is not in scope inside the expression that defines it.
+	local quiet
+
+	-- Reads the live state rather than a remembered one, so a profile changed from
+	-- inside ATT is reflected here instead of quietly disagreeing with it.
+	quiet = Check(panel, L.OPT_QUIET, harvest, -4,
+		function() return ns.IsQuiet() end,
+		function(value)
+			local now = ns.ToggleQuiet()
+			-- The toggle refuses when ATT is absent or too old. Put the box back
+			-- rather than leaving it claiming something that did not happen.
+			if quiet and now ~= value then quiet:SetChecked(now and true or false) end
+		end)
+
 	local header = panel:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-	header:SetPoint("TOPLEFT", harvest, "BOTTOMLEFT", 0, -20)
+	header:SetPoint("TOPLEFT", quiet, "BOTTOMLEFT", 0, -20)
 	header:SetText(L.OPT_DEPENDENCIES)
 
 	panel:SetScript("OnShow", function() RefreshDependencies(header) end)

@@ -145,6 +145,7 @@ local function Help()
 	ns.Print("  /mw status - " .. L.HELP_STATUS)
 	ns.Print("  /mw census - " .. L.HELP_CENSUS)
 	ns.Print("  /mw nameplate - " .. L.HELP_NAMEPLATE)
+	ns.Print("  /mw quiet - " .. L.HELP_QUIET)
 	ns.Print("  /mw deps - " .. L.HELP_DEPS)
 	ns.Print("  /mw options - " .. L.HELP_OPTIONS)
 	ns.Print("  /mw reset - " .. L.HELP_RESET)
@@ -185,6 +186,11 @@ SlashCmdList.MOGWHERE = function(input)
 
 	if command == "options" or command == "config" then
 		ns.OpenOptions()
+		return
+	end
+
+	if command == "quiet" then
+		ns.ToggleQuiet()
 		return
 	end
 
