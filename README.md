@@ -12,11 +12,18 @@ it.
 
 **MogWhere answers all of that, in the wardrobe itself.**
 
-<!-- CurseForge link goes here once the project is published:
-     https://www.curseforge.com/wow/addons/mogwhere -->
-
 Hover any tile in the wardrobe. A panel appears next to it with the real answer,
 in your language, following the client's own Tab selection.
+
+<p align="center">
+  <strong>DOWNLOAD THE ADDON</strong>
+</p>
+
+<p align="center">
+  <a href="https://www.curseforge.com/wow/addons/mogwhere-find-transmog-appearance-sources-and"><strong>CurseForge</strong></a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://github.com/Mouchoir/mogwhere/releases/latest"><strong>Latest release on GitHub</strong></a>
+</p>
 
 ---
 
