@@ -117,7 +117,10 @@ local function Leave(s, db)
 	return true
 end
 
-function ns.ToggleQuiet()
+-- Set, not toggle. "/mw quiet on" run twice must leave the same state as running
+-- it once, which a toggle cannot promise, and a script or a macro wants to say
+-- what it wants rather than ask for the opposite of whatever holds now.
+function ns.SetQuiet(want)
 	local db = ns.db
 	if not db then return nil end
 
@@ -132,17 +135,26 @@ function ns.ToggleQuiet()
 		return nil
 	end
 
+	if ns.IsQuiet() == want then
+		ns.Print(want and L.QUIET_ALREADY_ON or L.QUIET_ALREADY_OFF)
+		return want
+	end
+
 	local ok
-	if ns.IsQuiet() then
-		ok = Leave(s, db)
-		if ok then ns.Print(format(L.QUIET_OFF, tostring(db.quiet.previous or "Default"))) end
-	else
+	if want then
 		ok = Enter(s, db)
 		if ok then ns.Print(format(L.QUIET_ON, PROFILE)) end
+	else
+		ok = Leave(s, db)
+		if ok then ns.Print(format(L.QUIET_OFF, tostring(db.quiet.previous or "Default"))) end
 	end
 
 	if not ok then ns.Print(L.QUIET_FAILED) end
 	return ns.IsQuiet()
+end
+
+function ns.ToggleQuiet()
+	return ns.SetQuiet(not ns.IsQuiet())
 end
 
 --------------------------------------------------------------------------------
@@ -249,6 +261,14 @@ local function Dialog()
 
 	dialog = frame
 	return frame
+end
+
+-- Clears the answer and asks again, right now, with no reload. The dialog is
+-- built on demand, so there is nothing to wait for.
+function ns.AskQuietAgain()
+	local db = ns.db
+	if db and db.quiet then db.quiet.asked = nil end
+	if not ns.AskQuiet() then ns.Print(L.QUIET_NO_ATT) end
 end
 
 function ns.AskQuiet()

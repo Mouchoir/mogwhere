@@ -152,6 +152,7 @@ local function Help()
 	ns.Print("  /mw census - " .. L.HELP_CENSUS)
 	ns.Print("  /mw nameplate - " .. L.HELP_NAMEPLATE)
 	ns.Print("  /mw quiet - " .. L.HELP_QUIET)
+	ns.Print("      " .. L.HELP_QUIET_ARGS)
 	ns.Print("  /mw deps - " .. L.HELP_DEPS)
 	ns.Print("  /mw options - " .. L.HELP_OPTIONS)
 	ns.Print("  /mw reset - " .. L.HELP_RESET)
@@ -161,7 +162,7 @@ SLASH_MOGWHERE1 = "/mogwhere"
 SLASH_MOGWHERE2 = "/mw"
 
 SlashCmdList.MOGWHERE = function(input)
-	local command = (input or ""):lower():match("^%s*(%S*)")
+	local command, argument = (input or ""):lower():match("^%s*(%S*)%s*(%S*)")
 
 	if command == "probe" then
 		if ns.Probe() then
@@ -196,7 +197,17 @@ SlashCmdList.MOGWHERE = function(input)
 	end
 
 	if command == "quiet" then
-		ns.ToggleQuiet()
+		if argument == "on" then
+			ns.SetQuiet(true)
+		elseif argument == "off" then
+			ns.SetQuiet(false)
+		elseif argument == "ask" then
+			ns.AskQuietAgain()
+		elseif argument == "" then
+			ns.ToggleQuiet()
+		else
+			ns.Print("/mw quiet - " .. L.HELP_QUIET_ARGS)
+		end
 		return
 	end
 
