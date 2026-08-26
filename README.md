@@ -22,46 +22,53 @@ in your language, following the client's own Tab selection.
 
 ## What it looks like
 
-The whole thing lives in the Appearances tab. Hover a tile, read the answer.
+- **The whole thing lives in the Appearances tab.** Hover a tile, read the answer.
 
-![The Appearances tab with MogWhere](media/screenshots/overview.png)
+<p align="center">
+  <a href="media/screenshots/overview.png"><img src="media/screenshots/overview.png" width="760" alt="overview"></a>
+</p>
 
-**A boss drop**, with the instance, the boss and every difficulty it can drop on,
-plus the Wowhead link that middle click just copied.
+- **A boss drop** with the instance, the boss and every difficulty it can drop on, next to the Wowhead link that middle click just copied.
 
-![Boss drop](media/screenshots/boss-drop.png)
+<p align="center">
+  <a href="media/screenshots/boss-drop.png"><img src="media/screenshots/boss-drop.png" width="480" alt="boss drop"></a>
+</p>
 
-**A vendor**, named, with the zone, coordinates and both item costs. The orange
-line is the warning you get before clicking, because TomTom cannot give a bearing
-across an ocean.
+- **A vendor**, named, with the zone, coordinates and both item costs. The orange line is the warning you get before clicking, because TomTom cannot give a bearing across an ocean.
 
-![Vendor](media/screenshots/vendor.png)
+<p align="center">
+  <a href="media/screenshots/vendor.png"><img src="media/screenshots/vendor.png" width="480" alt="vendor"></a>
+</p>
 
-**A reputation gate**, answered with both halves: what it needs and where you
-actually stand.
+- **A reputation gate**, answered with both halves: what it needs and where you actually stand.
 
-![Reputation](media/screenshots/reputation.png)
+<p align="center">
+  <a href="media/screenshots/reputation.png"><img src="media/screenshots/reputation.png" width="480" alt="reputation"></a>
+</p>
 
-**An achievement**, with your own live progress and the criteria you are still
-missing. Not the ones you already have, which are a trophy rather than a to do
-list. This one is read entirely from the client.
+- **An achievement**, with your own live progress and the criteria you are still missing. Not the ones you already have, which are a trophy rather than a to do list. Read entirely from the client.
 
-![Achievement](media/screenshots/achievement.png)
+<p align="center">
+  <a href="media/screenshots/achievement.png"><img src="media/screenshots/achievement.png" width="480" alt="achievement"></a>
+</p>
 
-**A crafted appearance**, with the recipe and the skill level it needs.
+- **A crafted appearance**, with the recipe and the skill level it needs.
 
-![Profession](media/screenshots/profession.png)
+<p align="center">
+  <a href="media/screenshots/profession.png"><img src="media/screenshots/profession.png" width="480" alt="profession"></a>
+</p>
 
-**A quest that exists once per faction.** The other side's version says so, and
-names the one you can actually do.
+- **A quest that exists once per faction.** The other side's version says so, and names the one you can actually do.
 
-![Quest](media/screenshots/quest-faction.png)
+<p align="center">
+  <a href="media/screenshots/quest-faction.png"><img src="media/screenshots/quest-faction.png" width="480" alt="quest faction"></a>
+</p>
 
-**And the star**, on the nameplate of the vendor you asked to be taken to. It
-clears itself once you talk to them.
+- **The star**, on the nameplate of the vendor you asked to be taken to. It clears itself once you talk to them.
 
-![Waypoint star](media/screenshots/waypoint-star.png)
-
+<p align="center">
+  <a href="media/screenshots/waypoint-star.png"><img src="media/screenshots/waypoint-star.png" width="420" alt="waypoint star"></a>
+</p>
 ---
 
 ## What it shows
