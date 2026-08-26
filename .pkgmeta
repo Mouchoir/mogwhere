@@ -8,6 +8,9 @@ move-folders:
 ignore:
     - scripts
     - media
+    # Project page copy. It shipped in 0.2.0, which put a marketing document in
+    # every player's AddOns folder.
+    - docs
     - .luacheckrc
     - .github
     - CHANGELOG.md

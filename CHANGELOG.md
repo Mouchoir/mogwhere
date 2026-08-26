@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+- The package no longer ships `docs/`. The CurseForge description travelled
+  inside 0.2.0 and landed in every player's AddOns folder, which is a marketing
+  document in a place nobody asked for one.
+
 ## 0.2.0
 
 ### The star follows what you have to kill
