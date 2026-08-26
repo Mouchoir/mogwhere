@@ -253,10 +253,20 @@ local function Dialog()
 		frame:Hide()
 	end
 
-	keep:SetScript("OnClick", answered)
+	-- Both buttons state an outcome, neither guards against the current one.
+	--
+	-- The apply button used to read "if not already quiet, toggle", which on a
+	-- re-ask by somebody who was already quiet did nothing at all and said nothing
+	-- either. And "keep it as it is" has to mean the same thing whether it is the
+	-- first question or the tenth: AllTheThings showing everything.
+	keep:SetScript("OnClick", function()
+		answered()
+		ns.SetQuiet(false)
+	end)
+
 	apply:SetScript("OnClick", function()
 		answered()
-		if not ns.IsQuiet() then ns.ToggleQuiet() end
+		ns.SetQuiet(true)
 	end)
 
 	dialog = frame
