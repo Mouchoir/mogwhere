@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.0
+
+### Quiet mode
+
+AllTheThings is an excellent collection tracker and a dense one. Somebody who
+installs MogWhere for the wardrobe panel gets the minimap button, the world map
+button, tooltip lines on every item, windows and sounds along with it.
+
+- `/mw quiet` silences all of that, `/mw quiet on` and `/mw quiet off` state it
+  explicitly, and there is a checkbox in `/mw options`.
+- **Your AllTheThings settings are never modified.** Quiet mode copies your
+  current profile into one named MogWhere, switches to it, and only then mutes
+  anything. Every write lands in that profile. Yours stays exactly as it was, is
+  still listed in ATT's own settings, and coming back is a single profile switch.
+- The question is asked once, the first time AllTheThings is detected, with both
+  consequences spelled out. `/mw quiet ask` reopens it.
+- The current state is read from AllTheThings rather than remembered, so the
+  checkbox cannot disagree with ATT's own profile page, on any character.
+
+### Fixed
+
+- The slash parser only ever read the first word, so every command argument was
+  silently discarded.
+
 ## 0.2.1
 
 - The package no longer ships `docs/`. The CurseForge description travelled

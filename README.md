@@ -129,6 +129,7 @@ silently does nothing reads as a broken addon.
 | Command | What it does |
 |---|---|
 | `/mw options` | options panel, and a standing reminder of any missing optional addon |
+| `/mw quiet` | silence the AllTheThings interface, without touching its settings |
 | `/mw nameplate` | toggle the star on the target's nameplate |
 | `/mw deps` | the optional addons you are missing, with links |
 | `/mw reset` | clears harvested data |

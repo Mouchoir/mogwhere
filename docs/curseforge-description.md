@@ -79,9 +79,16 @@ to wonder why a line is missing.
 If either is installed but switched off, MogWhere offers to **enable it and
 reload**, instead of telling you to download something you already have.
 
+AllTheThings is dense, and you may only want the part MogWhere reads. `/mw quiet`
+hides its minimap button, its tooltip lines, its windows and its sounds. **Your
+AllTheThings settings are never modified**: quiet mode works by switching to a
+profile of its own, so yours stays exactly as it was and one click brings it
+back.
+
 ## Commands
 
 - `/mw options` - the options panel
+- `/mw quiet` - silence the AllTheThings interface, without touching its settings
 - `/mw nameplate` - toggle the star on the target's nameplate
 - `/mw deps` - which optional addons you are missing, with links
 - `/mw reset` - clears harvested vendor data
