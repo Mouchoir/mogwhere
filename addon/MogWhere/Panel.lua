@@ -539,9 +539,10 @@ local function AddCraft(offer, suffix)
 	-- Where the recipe itself comes from. A creature name is something a player
 	-- can target and hunt; the word "drop" is not.
 	--
-	-- Note what is deliberately not claimed: nothing says "boss" or "rare". The
-	-- data carries creature ids, not a classification, and inventing one would be
-	-- a guess dressed as a fact.
+	-- An earlier version of this comment claimed the data carries creature ids and
+	-- no classification, so nothing could ever say "rare". That was wrong: their
+	-- headers classify, and AddPlace already prints the one they filed it under.
+	-- A rare in Krasarang shows up as "Rare" without anybody guessing anything.
 	local kills = offer.recipeDroppedBy
 	if type(kills) == "table" and #kills > 0 then
 		local name = ns.NPCName(kills[1])
