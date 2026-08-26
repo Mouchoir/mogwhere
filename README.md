@@ -2,9 +2,15 @@
 
 ![MogWhere](media/banner.png)
 
-**The Appearances tab tells you an item came from a "Vendor". MogWhere tells you
-which vendor, what it costs, whether you have the reputation, and how to walk
-there.**
+**The Appearances tab gives you one word. "Vendor". "Quest". "Boss Drop".
+"Achievement". Then nothing.**
+
+Not which vendor, or what it charges. Not which quest, or who hands it out. Not
+which boss, in which instance, on which difficulty. Not which achievement, or how
+far along you already are. And never whether you have the reputation for any of
+it.
+
+**MogWhere answers all of that, in the wardrobe itself.**
 
 <!-- CurseForge link goes here once the project is published:
      https://www.curseforge.com/wow/addons/mogwhere -->
