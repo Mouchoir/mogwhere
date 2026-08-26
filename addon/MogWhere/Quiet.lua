@@ -144,13 +144,25 @@ end
 -- options panel either way.
 --------------------------------------------------------------------------------
 
+-- Laid out downward and measured, not sized by guess.
+--
+-- The first version fixed the frame at 260 pixels and anchored the buttons to its
+-- bottom edge. The body is three paragraphs and wrapped past that, so the buttons
+-- sat on top of the last one. Every element is now anchored to the one above it
+-- and the height is the sum of what they actually occupy, which cannot go stale
+-- when the wording changes or a translation runs longer than the English.
+local PAD = 18
+local GAP = 14
+local WIDTH = 620
+local BUTTON_H = 26
+
 local dialog
 
 local function Dialog()
 	if dialog then return dialog end
 
 	local frame = CreateFrame("Frame", nil, UIParent, "BackdropTemplate")
-	frame:SetSize(560, 260)
+	frame:SetWidth(WIDTH)
 	frame:SetPoint("CENTER", 0, 100)
 	frame:SetFrameStrata("DIALOG")
 	frame:EnableMouse(true)
@@ -170,13 +182,17 @@ local function Dialog()
 		frame:SetBackdropColor(0, 0, 0, 0.95)
 	end
 
+	local inner = WIDTH - PAD * 2
+
 	local title = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-	title:SetPoint("TOPLEFT", 18, -16)
+	title:SetPoint("TOPLEFT", PAD, -PAD)
+	title:SetWidth(inner)
+	title:SetJustifyH("LEFT")
 	title:SetText(L.QUIET_ASK_TITLE)
 
 	local body = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-	body:SetPoint("TOPLEFT", 18, -48)
-	body:SetWidth(524)
+	body:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -GAP)
+	body:SetWidth(inner)
 	body:SetJustifyH("LEFT")
 	body:SetSpacing(3)
 	body:SetText(L.QUIET_ASK_BODY)
@@ -184,20 +200,23 @@ local function Dialog()
 	-- Answering is mandatory in the sense that closing without choosing would just
 	-- ask again next login, so there is no close button and no silent dismissal.
 	local keep = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-	keep:SetSize(230, 26)
-	keep:SetPoint("BOTTOMLEFT", 24, 62)
+	keep:SetSize((inner - GAP) / 2, BUTTON_H)
+	keep:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -GAP - 4)
 	keep:SetText(L.QUIET_ASK_KEEP)
 
 	local apply = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-	apply:SetSize(230, 26)
-	apply:SetPoint("BOTTOMRIGHT", -24, 62)
+	apply:SetSize((inner - GAP) / 2, BUTTON_H)
+	apply:SetPoint("TOPRIGHT", body, "BOTTOMRIGHT", 0, -GAP - 4)
 	apply:SetText(L.QUIET_ASK_APPLY)
 
 	local footer = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
-	footer:SetPoint("BOTTOM", 0, 22)
-	footer:SetWidth(500)
+	footer:SetPoint("TOPLEFT", keep, "BOTTOMLEFT", 0, -GAP)
+	footer:SetWidth(inner)
 	footer:SetJustifyH("CENTER")
 	footer:SetText(L.QUIET_ASK_FOOTER)
+
+	frame:SetHeight(PAD + title:GetStringHeight() + GAP + body:GetStringHeight()
+		+ GAP + 4 + BUTTON_H + GAP + footer:GetStringHeight() + PAD)
 
 	local function answered()
 		local db = ns.db
