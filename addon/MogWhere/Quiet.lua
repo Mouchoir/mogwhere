@@ -102,14 +102,32 @@ end
 --
 -- So the profile is brought back in line at every login while quiet mode is on.
 -- It writes only into our own profile, and only values it already intends.
-function ns.ReapplyQuiet()
-	if not ns.IsQuiet() then return false end
+--
+-- Immediately, and retried rather than delayed. The first version waited ten
+-- seconds to be sure AllTheThings had finished loading, and a quest handed in
+-- during those ten seconds was announced in chat before the mute landed. A fixed
+-- delay cannot be right: too short and their profile is not applied yet, too long
+-- and it is a window of noise on every single login.
+--
+-- Not being quiet and AllTheThings not being ready are indistinguishable from
+-- here, so both retry. For somebody who is genuinely not quiet that costs a
+-- handful of table lookups spread over a few seconds and changes nothing.
+local ATTEMPTS = 8
+local RETRY = 0.5
+
+function ns.ReapplyQuiet(attempt)
+	attempt = attempt or 1
 
 	local s = Settings()
-	if not s then return false end
+	if s and ns.IsQuiet() then
+		Mute(s)
+		return true
+	end
 
-	Mute(s)
-	return true
+	if attempt < ATTEMPTS and C_Timer and C_Timer.After then
+		C_Timer.After(RETRY * attempt, function() ns.ReapplyQuiet(attempt + 1) end)
+	end
+	return false
 end
 
 local function Enter(s, db)
