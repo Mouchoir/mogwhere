@@ -86,6 +86,32 @@ end
 
 --------------------------------------------------------------------------------
 
+-- Applied to whatever profile is currently active, which is only ever ours.
+local function Mute(s)
+	for _, key in ipairs(MUTE) do
+		Try(s.SetTooltipSetting, s, key, false)
+	end
+end
+
+-- Convergence, not a one time write.
+--
+-- The mute list used to be applied once, when quiet mode was switched on. Adding
+-- a key to it then did nothing for anybody already quiet: their profile kept
+-- whatever the list said on the day it was created. Chat reports were added and
+-- stayed noisy for exactly that reason.
+--
+-- So the profile is brought back in line at every login while quiet mode is on.
+-- It writes only into our own profile, and only values it already intends.
+function ns.ReapplyQuiet()
+	if not ns.IsQuiet() then return false end
+
+	local s = Settings()
+	if not s then return false end
+
+	Mute(s)
+	return true
+end
+
 local function Enter(s, db)
 	local previous = Try(s.GetProfile, s)
 
@@ -113,10 +139,7 @@ local function Enter(s, db)
 	-- truthiness.
 	if Try(s.GetProfile, s) ~= PROFILE then return false end
 
-	-- Only now. Every one of these writes into the profile we just switched to.
-	for _, key in ipairs(MUTE) do
-		Try(s.SetTooltipSetting, s, key, false)
-	end
+	Mute(s)
 
 	-- Only what cannot be read back from ATT: which profile to return to.
 	db.quiet = db.quiet or {}

@@ -99,6 +99,10 @@ frame:SetScript("OnEvent", function(_, event, arg1)
 			-- practice: that one only appears when AllTheThings is missing, this
 			-- one only when it is present. The gap is there so a player who is
 			-- missing TomTom does not get two dialogs stacked on each other.
+			-- Before the question, and independent of it: somebody already quiet is
+			-- never asked anything, and their profile still has to catch up with a
+			-- mute list that may have grown since they turned it on.
+			C_Timer.After(10, function() ns.ReapplyQuiet() end)
 			C_Timer.After(13, function() ns.AskQuiet() end)
 		end
 		return
