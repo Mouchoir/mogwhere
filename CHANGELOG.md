@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.3.1
+
+Quiet mode was still letting AllTheThings talk in chat. Three separate causes,
+all of them fixed.
+
+- **The chat reports were never muted.** Collection, quest and death tracker
+  reports are a different family of settings from the celebrations and sounds
+  that quiet mode already covered, and they were simply missing from the list.
+  They gate the printing rather than the tracking, so AllTheThings still records
+  everything it always did and stops narrating it.
+- **The mute list is now re-applied at every login instead of once.** It used to
+  be written only when quiet mode was switched on, so adding a key to it did
+  nothing for anybody already quiet: their profile kept whatever the list said on
+  the day it was created. Quiet mode converges now, which is also what makes the
+  point above reach existing users rather than new installs only.
+- **The window at login is closed.** The re-apply was armed ten seconds after
+  login to let AllTheThings finish loading, and anything collected in those ten
+  seconds was announced before the mute landed. It now goes out immediately and
+  retries while AllTheThings cannot yet answer.
+
+Nothing to do after updating. If you are already in quiet mode it catches up on
+its own at the next login.
+
 ## 0.3.0
 
 ### Quiet mode
