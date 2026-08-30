@@ -43,6 +43,15 @@ local MUTE = {
 	"Show:TooltipHelp",
 	"SourceLocations",
 	"Warn:Removed",
+
+	-- Chat output, which is a separate family from the celebrations above and was
+	-- missing entirely: "X has been added to your collection" kept scrolling past
+	-- with quiet mode on. These gate the printing, not the tracking, so ATT still
+	-- records everything it always did and simply stops narrating it.
+	"Report:Collected",
+	"Report:CompletedQuests",
+	"Report:UnsortedQuests",
+	"Report:DeathTracker",
 }
 
 local function Settings()
