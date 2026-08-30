@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.3.2
+
+- **The quiet mode question is now asked once per character**, not once per
+  account. AllTheThings assigns profiles per character, so quiet mode is per
+  character too, and a single account wide answer meant the first character to
+  see the question decided for every alt that would ever exist: they got a loud
+  AllTheThings and no prompt explaining where it came from.
+- A character already on the MogWhere profile is never asked. That is an answer,
+  given earlier in the only form that counts.
+- `/mw quiet ask` still forces the dialog on demand, on any character, whatever
+  was answered before.
+
+The character that answered under the old rule is asked once more, because there
+is no record of which one it was. Once, then never again.
+
 ## 0.3.1
 
 Quiet mode was still letting AllTheThings talk in chat. Three separate causes,

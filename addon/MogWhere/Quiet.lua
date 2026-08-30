@@ -223,17 +223,54 @@ function ns.ToggleQuiet()
 end
 
 --------------------------------------------------------------------------------
--- Asking once, the first time AllTheThings is seen
+-- Asking once per character, the first time AllTheThings is seen
 --
 -- Neither answer is a sane default. Applying quiet mode unasked would be an addon
 -- reconfiguring another one behind the player's back, and doing nothing leaves
 -- somebody who installed this for a wardrobe panel wondering why their minimap
 -- grew a button.
 --
--- So the question gets asked, once, and the answer is remembered. Not asked again
--- on the next character, not asked again after a reload, and reversible from the
--- options panel either way.
+-- So the question gets asked and the answer is remembered, per character, because
+-- that is the granularity ATT itself uses for profiles. Not asked again after a
+-- reload, not asked again on a character that already answered, and reversible
+-- from the options panel either way.
 --------------------------------------------------------------------------------
+
+-- Recorded per character, because what it decides is per character.
+--
+-- ATT assigns profiles per character, so quiet mode is too. A single account wide
+-- answer meant the first character to see the question decided for every alt that
+-- would ever exist: they got a loud AllTheThings and no prompt explaining where it
+-- came from or how to stop it. Same scope mismatch that made the old "active"
+-- flag drift, in the other direction.
+-- The GUID alone, with no name and realm fallback. A fallback would key the same
+-- character two different ways depending on when it ran, which buys a case that
+-- cannot happen here (the dialog is thirteen seconds into a session) at the cost
+-- of one that can: being asked twice.
+local function Asked(db)
+	local key = UnitGUID("player")
+	-- No GUID means the client cannot yet say who this is. Read as answered, so
+	-- nothing is asked now and nothing is written under a key that would not match
+	-- the one used a moment later. The question comes back next login.
+	if not key then return true end
+
+	local asked = db.quiet and db.quiet.asked
+	-- Anything other than a table is the old account wide boolean. Deliberately
+	-- read as "nobody has been asked": there is no record of which character
+	-- answered it, and asking each of them once is the whole point of the change.
+	-- The character that answered before gets one more prompt, once.
+	if type(asked) ~= "table" then return false end
+	return asked[key] and true or false
+end
+
+local function MarkAsked(db)
+	local key = UnitGUID("player")
+	if not key then return end
+
+	db.quiet = db.quiet or {}
+	if type(db.quiet.asked) ~= "table" then db.quiet.asked = {} end
+	db.quiet.asked[key] = true
+end
 
 -- Laid out downward and measured, not sized by guess.
 --
@@ -311,10 +348,7 @@ local function Dialog()
 
 	local function answered()
 		local db = ns.db
-		if db then
-			db.quiet = db.quiet or {}
-			db.quiet.asked = true
-		end
+		if db then MarkAsked(db) end
 		frame:Hide()
 	end
 
@@ -338,23 +372,31 @@ local function Dialog()
 	return frame
 end
 
--- Clears the answer and asks again, right now, with no reload. The dialog is
--- built on demand, so there is nothing to wait for.
+-- Asks again right now, with no reload. The dialog is built on demand, so there
+-- is nothing to wait for.
 function ns.AskQuietAgain()
-	local db = ns.db
-	if db and db.quiet then db.quiet.asked = nil end
-	if not ns.AskQuiet() then ns.Print(L.QUIET_NO_ATT) end
+	if not ns.AskQuiet(true) then ns.Print(L.QUIET_NO_ATT) end
 end
 
-function ns.AskQuiet()
+-- force is what "/mw quiet ask" passes. It skips the record and the shortcut
+-- below, because somebody typing the command is asking for the dialog, not for
+-- MogWhere's opinion on whether they need it.
+function ns.AskQuiet(force)
 	local db = ns.db
 	if not db then return false end
-	if db.quiet and db.quiet.asked then return false end
+	if not force and Asked(db) then return false end
 
 	-- Nothing to offer if it is not there, and the question would be nonsense.
-	-- The flag is deliberately NOT set here: install ATT next week and the
+	-- The record is deliberately NOT set here: install ATT next week and the
 	-- question is still worth asking then.
 	if not ns.HasATT() or not Settings() then return false end
+
+	-- Already on our profile is an answer, given earlier in the only form that
+	-- counts. Recorded silently rather than put to somebody a second time.
+	if not force and ns.IsQuiet() then
+		MarkAsked(db)
+		return false
+	end
 
 	Dialog():Show()
 	return true
